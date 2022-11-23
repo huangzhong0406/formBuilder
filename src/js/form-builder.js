@@ -2323,12 +2323,12 @@ function FormBuilder(opts, element, $) {
 
   // Attach a callback to add new options  添加新选项
   $stage.on('click', '.add-opt', function (e) {
-    let isBlank = false;
-    let blankOption = [];
-    $(e.target).closest('.sortable-options-wrap').find("li input[data-attr='label']").each( (i,item) => {
+    let isBlank = false
+    let blankOption = []
+    $(e.target).closest('.sortable-options-wrap').find('li input[data-attr="label"]').each( (i,item) => {
       if(!$(item).val().trim()) {
-        isBlank = true;
-        blankOption.push(item);
+        isBlank = true
+        blankOption.push(item)
       }
     })
     e.preventDefault()
@@ -2352,43 +2352,43 @@ function FormBuilder(opts, element, $) {
         index: $sortableOptions.children().length,
         isMultiple,
       })
-      $(e.target).attr("class","add add-opt");
+      $(e.target).attr('class','add add-opt')
       $sortableOptions.append(selectFieldOptions(optionData, isMultiple))
     } else {
-      $(e.target).attr("class","add add-opt add-warning");
+      $(e.target).attr('class','add add-opt add-warning')
       blankOption.forEach((item,index) => {
-        $(item).attr("class","option-label option-attr option-blank");
+        $(item).attr('class','option-label option-attr option-blank')
       })
     }
   })
 
   $stage.on('change', '.option-label', function (e) {
     if($(e.target).val().trim()) {
-      $(e.target).attr("class","option-label option-attr");
-      $(e.target).closest(".sortable-options-wrap").find(".add-opt").attr("class","add add-opt");
+      $(e.target).attr('class','option-label option-attr')
+      $(e.target).closest('.sortable-options-wrap').find('.add-opt').attr('class','add add-opt')
     } else {
-      $(e.target).attr("class","option-label option-attr option-blank");
+      $(e.target).attr('class','option-label option-attr option-blank')
     }
   })
 
   $stage.on('mousedown', 'input[type="radio"]', function (e) {
-    isChecked = $(e.target).prop("checked");
+    isChecked = $(e.target).prop('checked')
   })
 
   // 更改选中状态
   $stage.on('click', '.option-attr[type="radio"]', function (e) {
-    const optionIndex = $(e.target).parent().index();
-    const optionsAttr = $(e.target).closest(".sortable-options").find(".option-attr[type='radio']");
+    const optionIndex = $(e.target).parent().index()
+    const optionsAttr = $(e.target).closest('.sortable-options').find('.option-attr[type="radio"]')
     optionsAttr.each((i,item) => {
       if(i !== optionIndex) {
-        $(item).prop("checked",false);
+        $(item).prop('checked',false)
       }
     })
   })
 
   $stage.on('click', 'input[type="radio"]', function (e) {
     if(isChecked === true) {
-      $(e.target).prop("checked",false);
+      $(e.target).prop('checked',false)
     }
   })
 
