@@ -90,6 +90,7 @@ function FormBuilder(opts, element, $) {
 
   let $targetInsertWrapper
   let cloneControls
+  let isChecked = false
 
   function enhancedBootstrapEnabled() {
     if (!opts.enableEnhancedBootstrapGrid) {
@@ -1512,7 +1513,7 @@ function FormBuilder(opts, element, $) {
     }
   }
 
-  // Select field html, since there may be multiple
+  // Select field html, since there may be multiple    添加单选框、多选框、下拉框的时候触发
   const selectFieldOptions = function (optionData, multipleSelect) {
     const optionTemplate = { selected: false, label: '', value: '' }
     const optionInputType = {
@@ -1750,7 +1751,7 @@ function FormBuilder(opts, element, $) {
   })
 
   /**
-   * Toggle multiple select options
+   * Toggle multiple select options 勾选多选的时候触发
    * @param  {Object} e click event
    * @return {String} newType
    */
@@ -2320,29 +2321,75 @@ function FormBuilder(opts, element, $) {
     })
   })
 
-  // Attach a callback to add new options
+  // Attach a callback to add new options  添加新选项
   $stage.on('click', '.add-opt', function (e) {
-    e.preventDefault()
-    const type = $(e.target).closest('.form-field').attr('type')
-    const $optionWrap = $(e.target).closest('.field-options')
-    const $multiple = $('[name="multiple"]', $optionWrap)
-    const $firstOption = $('.option-selected:eq(0)', $optionWrap)
-    let isMultiple = false
-
-    if ($multiple.length) {
-      isMultiple = $multiple.prop('checked')
-    } else {
-      isMultiple = $firstOption.attr('type') === 'checkbox'
-    }
-
-    const optionTemplate = { selected: false, label: '', value: '' }
-    const $sortableOptions = $('.sortable-options', $optionWrap)
-    const optionData = config.opts.onAddOption(optionTemplate, {
-      type,
-      index: $sortableOptions.children().length,
-      isMultiple,
+    let isBlank = false;
+    let blankOption = [];
+    $(e.target).closest('.sortable-options-wrap').find("li input[data-attr='label']").each( (i,item) => {
+      if(!$(item).val().trim()) {
+        isBlank = true;
+        blankOption.push(item);
+      }
     })
-    $sortableOptions.append(selectFieldOptions(optionData, isMultiple))
+    e.preventDefault()
+    if(!isBlank) {
+      const type = $(e.target).closest('.form-field').attr('type')
+      const $optionWrap = $(e.target).closest('.field-options')
+      const $multiple = $('[name="multiple"]', $optionWrap)
+      const $firstOption = $('.option-selected:eq(0)', $optionWrap)
+      let isMultiple = false
+
+      if ($multiple.length) {
+        isMultiple = $multiple.prop('checked')
+      } else {
+        isMultiple = $firstOption.attr('type') === 'checkbox'
+      }
+
+      const optionTemplate = { selected: false, label: '', value: '' }
+      const $sortableOptions = $('.sortable-options', $optionWrap)
+      const optionData = config.opts.onAddOption(optionTemplate, {
+        type,
+        index: $sortableOptions.children().length,
+        isMultiple,
+      })
+      $(e.target).attr("class","add add-opt");
+      $sortableOptions.append(selectFieldOptions(optionData, isMultiple))
+    } else {
+      $(e.target).attr("class","add add-opt add-warning");
+      blankOption.forEach((item,index) => {
+        $(item).attr("class","option-label option-attr option-blank");
+      })
+    }
+  })
+
+  $stage.on('change', '.option-label', function (e) {
+    if($(e.target).val().trim()) {
+      $(e.target).attr("class","option-label option-attr");
+      $(e.target).closest(".sortable-options-wrap").find(".add-opt").attr("class","add add-opt");
+    } else {
+      $(e.target).attr("class","option-label option-attr option-blank");
+    }
+  })
+
+  $stage.on('mousedown', 'input[type="radio"]', function (e) {
+    isChecked = $(e.target).prop("checked");
+  })
+
+  // 更改选中状态
+  $stage.on('click', '.option-attr[type="radio"]', function (e) {
+    const optionIndex = $(e.target).parent().index();
+    const optionsAttr = $(e.target).closest(".sortable-options").find(".option-attr[type='radio']");
+    optionsAttr.each((i,item) => {
+      if(i !== optionIndex) {
+        $(item).prop("checked",false);
+      }
+    })
+  })
+
+  $stage.on('click', 'input[type="radio"]', function (e) {
+    if(isChecked === true) {
+      $(e.target).prop("checked",false);
+    }
   })
 
   $stage.on('mouseover mouseout', '.remove, .del-button', e => $(e.target).closest('li').toggleClass('delete'))
