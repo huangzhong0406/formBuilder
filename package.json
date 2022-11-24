@@ -54,7 +54,7 @@
       ]
     },
     "fontServer": "https://fontello.com",
-    "fontelloToken": "09d648f01d6c57cb9f9b8cc55043e0c0"
+    "fontelloToken": "4c3686288358d277f66aa93c50999187"
   },
   "babel": {
     "presets": [
@@ -141,7 +141,6 @@
     "request": "^2.88.2",
     "sass": "^1.49.9",
     "sass-loader": "^9.0.3",
-    
     "semantic-release": "^17.1.1",
     "semver": "^7.3.2",
     "style-loader": "^1.2.1",
