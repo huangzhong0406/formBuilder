@@ -34,20 +34,146 @@ document.getElementById('toggleBootstrap').addEventListener('click', toggleBootS
 jQuery(function ($) {
   const fields = [
     {
-      type: 'autocomplete',
-      label: 'Custom Autocomplete',
+      type: 'button',
+      subtype: 'submit',
+      label: 'submit',
+      className: 'form-control create-form-submit',
+      name: 'submit',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'select',
+      label: '自定义下拉框',
+      className: 'custom',
+      customFiedType: 'custom'
+    },
+    {
+      type: 'checkbox-group',
+      label: '自定义多选框',
+      className: 'custom',
+      customFiedType: 'custom'
+    },
+    {
+      type: 'radio-group',
+      label: '自定义单选框',
+      className: 'custom',
+      customFiedType: 'custom'
+    },
+    {
+      type: 'textarea',
+      label: '自定义多行文本',
+      className: 'form-control custom',
+      rows: 3,
+      customFiedType: 'custom'
+    },
+    {
+      type: 'textarea',
+      label: 'Message',
+      rows: 3,
       required: true,
-      values: [
-        { label: 'SQL' },
-        { label: 'C#' },
-        { label: 'JavaScript' },
-        { label: 'Java' },
-        { label: 'Python' },
-        { label: 'C++' },
-        { label: 'PHP' },
-        { label: 'Swift' },
-        { label: 'Ruby' },
-      ],
+      className: 'form-control',
+      name: 'message',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'paragraph',
+      subtype: 'p',
+      label: 'Description',
+      className: 'form-control',
+      name: 'paragraph',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: '自定义单行文本',
+      className: 'form-control custom',
+      customFiedType: 'custom'
+    },
+    {
+      type: 'text',
+      label: 'Job',
+      className: 'form-control',
+      name: 'job',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Company',
+      className: 'form-control',
+      name: 'company',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Linkedin',
+      className: 'form-control',
+      name: 'linkedin',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Skype',
+      className: 'form-control',
+      name: 'skype',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'WhatsApp',
+      className: 'form-control',
+      name: 'whatsapp',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Facebook',
+      className: 'form-control',
+      name: 'facebook',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Address',
+      className: 'form-control',
+      name: 'address',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Country',
+      className: 'form-control',
+      name: 'country',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Email',
+      className: 'form-control',
+      name: 'email',
+      required: true,
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Tel',
+      className: 'form-control',
+      name: 'tel',
+      customFiedType: 'basic'
+    },
+    {
+      type: 'text',
+      label: 'Name',
+      className: 'form-control',
+      name: 'name',
+      required: true,
+      customFiedType: 'basic'
+    },
+    {
+      type: 'header',
+      subtype: 'h2',
+      label: '联系我们',
+      name: 'header',
+      customFiedType: 'basic'
     },
     {
       label: 'Star Rating',
@@ -55,13 +181,6 @@ jQuery(function ($) {
         type: 'starRating',
       },
       icon: '🌟',
-    },
-    {
-      type: 'checkbox-group',
-      subtype: 'custom-group',
-      label: 'Custom Checkbox Group w/Sub Type',
-      required: true,
-      values: [{ label: 'Option 1' }, { label: 'Option 2' }],
     },
   ]
 
@@ -108,6 +227,7 @@ jQuery(function ($) {
       icon: '👨',
       name: 'user-details', // optional
       showHeader: true, // optional
+      customFiedType: 'custom',
       fields: [
         {
           type: 'text',

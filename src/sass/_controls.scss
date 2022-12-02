@@ -20,6 +20,30 @@
       display: none;
     }
   }
+
+  .field-type-action-box {
+    display: flex;
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    .field-type-action {
+      width: 50%;
+      padding: 15px 0;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background: #f2f2f2;
+      }
+      &.active {
+        background: #f2f2f2;
+      }
+    }
+    .basic-action {
+      border-right: 1px solid #c5c5c5;
+    }
+  }
 }
 
 .frmb-control {

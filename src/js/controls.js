@@ -90,11 +90,19 @@ export default class Controls {
       if (icon) {
         label = `<span class="control-icon">${icon}</span>${label}`
       }
-
+      let newFieldControl = ''
       // build & insert the new list item to represent this control
-      const newFieldControl = m('li', m('span', label), {
-        className: `${iconClassName} input-control input-control-${i}`,
-      })
+      if(custom.customFiedType && custom.customFiedType === 'custom') {
+        newFieldControl = m('li', m('span', label), {
+          className: `${iconClassName} input-control custom-control input-control-${i}`,
+        })
+        $(newFieldControl).hide()
+      } else {
+        newFieldControl = m('li', m('span', label), {
+          className: `${iconClassName} input-control basic-control input-control-${i}`,
+        }) 
+      }
+
       newFieldControl.dataset.type = type
       this.controlList.push(type)
       this.allControls[type] = newFieldControl
@@ -107,9 +115,19 @@ export default class Controls {
         if (set.icon) {
           label = `<span class="control-icon">${set.icon}</span>${label}`
         }
-        const inputSet = m('li', label, {
-          className: `input-set-control input-set-${i}`,
-        })
+        let inputSet = ''
+        if(set.customFiedType && set.customFiedType === 'custom') {
+          inputSet = m('li', label, {
+            className: `input-set-control custom-control input-set-${i}`,
+          })
+          $(inputSet).hide()
+        } else {
+          inputSet = m('li', label, {
+            className: `input-set-control basic-control input-set-${i}`,
+          })
+        }
+
+        
         inputSet.dataset.type = name
         this.controlList.push(name)
         this.allControls[name] = inputSet

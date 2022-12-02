@@ -224,6 +224,25 @@ function FormBuilder(opts, element, $) {
     className: `cb-wrap ${data.layout.controls}`,
   })
 
+  const basicAction = m('div','basic', {
+    id: `${data.formID}-basicAction`,
+    className: 'field-type-action basic-action active',
+  })
+
+  const customAction = m('div', 'custom', {
+    id: `${data.formID}-customAction`,
+    className: 'field-type-action custom-action',
+  })
+
+  const fieldTypeAction = m('div', '', {
+    id: `${data.formID}-fieldTypeAction-box`,
+    className: 'field-type-action-box',
+  })
+
+  fieldTypeAction.append(basicAction,customAction)
+
+  cbWrap.prepend(fieldTypeAction)
+
   if (opts.showActionButtons) {
     cbWrap.appendChild(d.formActions)
   }
@@ -1036,7 +1055,7 @@ function FormBuilder(opts, element, $) {
       m('a', null, {
         type: 'remove',
         id: 'del_' + data.lastID,
-        className: `del-button btn ${css_prefix_text}cancel delete-confirm`,
+        className: `del-button btn ${css_prefix_text}trash-empty delete-confirm`,
         title: mi18n.get('removeMessage'),
       }),
       m('a', null, {
@@ -2324,7 +2343,7 @@ function FormBuilder(opts, element, $) {
   // Attach a callback to add new options  添加新选项
   $stage.on('click', '.add-opt', function (e) {
     let isBlank = false
-    let blankOption = []
+    const blankOption = []
     $(e.target).closest('.sortable-options-wrap').find('li input[data-attr="label"]').each( (i,item) => {
       if(!$(item).val().trim()) {
         isBlank = true
@@ -2356,9 +2375,7 @@ function FormBuilder(opts, element, $) {
       $sortableOptions.append(selectFieldOptions(optionData, isMultiple))
     } else {
       $(e.target).attr('class','add add-opt add-warning')
-      blankOption.forEach((item,index) => {
-        $(item).attr('class','option-label option-attr option-blank')
-      })
+      blankOption.forEach(item => $(item).attr('class','option-label option-attr option-blank'))
     }
   })
 
@@ -2390,6 +2407,22 @@ function FormBuilder(opts, element, $) {
     if(isChecked === true) {
       $(e.target).prop('checked',false)
     }
+  })
+
+  $('.field-type-action-box').on('click', '.basic-action', function (e) {
+    $cbUL.children().each((i,item) => {
+      $(e.target).addClass('active').siblings().removeClass('active')
+      $(item).hasClass('custom-control') && $(item).hide()
+      $(item).hasClass('custom-control') || $(item).show()
+    })
+  })
+
+  $('.field-type-action-box').on('click', '.custom-action', function (e) {
+    $cbUL.children().each((i,item) => {
+      $(e.target).addClass('active').siblings().removeClass('active')
+      $(item).hasClass('custom-control') && $(item).show()
+      $(item).hasClass('custom-control') || $(item).hide()
+    })
   })
 
   $stage.on('mouseover mouseout', '.remove, .del-button', e => $(e.target).closest('li').toggleClass('delete'))
