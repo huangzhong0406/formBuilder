@@ -2403,7 +2403,7 @@ function FormBuilder(opts, element, $) {
         if (text !== '') {
           const newText = []
           for(let i=0;i<text.length;i++) {
-            if(text[i] != ' ' && text[i] != '\r' && text[i] != '\n' && text[i] != '\t') {
+            if(text[i] != '\r' && text[i] != '\n') {
               newText.push(text[i])
             }
           }
@@ -2423,7 +2423,7 @@ function FormBuilder(opts, element, $) {
         text = clp.getData('text/plain') || ''
         const newText = []
         for(let i=0;i<text.length;i++) {
-          if(text[i] != ' ' && text[i] != '\r' && text[i] != '\n' && text[i] != '\t') {
+          if(text[i] != '\r' && text[i] != '\n') {
             newText.push(text[i])
           }
         }
