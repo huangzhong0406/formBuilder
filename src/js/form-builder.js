@@ -2321,10 +2321,10 @@ function FormBuilder(opts, element, $) {
     })
   })
 
-  // Attach a callback to add new options  添加新选项
+  // Attach a callback to add new options  
   $stage.on('click', '.add-opt', function (e) {
     let isBlank = false
-    let blankOption = []
+    const blankOption = []
     $(e.target).closest('.sortable-options-wrap').find('li input[data-attr="label"]').each( (i,item) => {
       if(!$(item).val().trim()) {
         isBlank = true
@@ -2356,7 +2356,7 @@ function FormBuilder(opts, element, $) {
       $sortableOptions.append(selectFieldOptions(optionData, isMultiple))
     } else {
       $(e.target).attr('class','add add-opt add-warning')
-      blankOption.forEach((item,index) => {
+      blankOption.forEach(item => {
         $(item).attr('class','option-label option-attr option-blank')
       })
     }
@@ -2375,7 +2375,7 @@ function FormBuilder(opts, element, $) {
     isChecked = $(e.target).prop('checked')
   })
 
-  // 更改选中状态
+  // Change the selected state
   $stage.on('click', '.option-attr[type="radio"]', function (e) {
     const optionIndex = $(e.target).parent().index()
     const optionsAttr = $(e.target).closest('.sortable-options').find('.option-attr[type="radio"]')
@@ -2389,6 +2389,48 @@ function FormBuilder(opts, element, $) {
   $stage.on('click', 'input[type="radio"]', function (e) {
     if(isChecked === true) {
       $(e.target).prop('checked',false)
+    }
+  })
+
+  // Only plain text can be pasted
+  $stage.on('paste', '.form-control', function (e) {
+    e.preventDefault()
+    let text
+    const clp = (e.originalEvent || e).clipboardData
+    // Compatible with browsers such as opera ie
+    if (clp === undefined || clp === null) {
+        text = window.clipboardData.getData('text') || ''
+        if (text !== '') {
+          const newText = []
+          for(let i=0;i<text.length;i++) {
+            if(text[i] != ' ' && text[i] != '\r' && text[i] != '\n' && text[i] != '\t') {
+              newText.push(text[i])
+            }
+          }
+          const result = newText.join('')
+            if (window.getSelection) {
+            // Compatible with browsers such as ie11 10 9 safari
+                var newNode = document.createElement('span')
+                newNode.innerHTML = result
+            	window.getSelection().getRangeAt(0).insertNode(newNode)
+            } else {
+            // Compatible with browsers such as ie10 9 8 7 6 5
+                document.selection.createRange().pasteHTML(result)
+            }
+        }
+    } else {
+     // Compatible with browsers such as chorme hotfire
+        text = clp.getData('text/plain') || ''
+        const newText = []
+        for(let i=0;i<text.length;i++) {
+          if(text[i] != ' ' && text[i] != '\r' && text[i] != '\n' && text[i] != '\t') {
+            newText.push(text[i])
+          }
+        }
+        const result = newText.join('')
+        if (result !== '') {
+            document.execCommand('insertText', false, result)
+        }
     }
   })
 
